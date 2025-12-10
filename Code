@@ -1,0 +1,779 @@
+import React, { useState, useEffect, useRef } from ‘react’;
+import { Play, Pause, RotateCcw, Activity, Zap, Brain, Heart } from ‘lucide-react’;
+
+const MathSolver639 = () => {
+const [isRunning, setIsRunning] = useState(false);
+const [iterations, setIterations] = useState(0);
+const [powerGain, setPowerGain] = useState(1);
+const [phase, setPhase] = useState(0);
+const [energyLevel, setEnergyLevel] = useState(0);
+const [coherence, setCoherence] = useState(100);
+const canvasRef = useRef(null);
+const animationRef = useRef(null);
+
+// Cœur énergétique 639 - Le moteur quantique
+const quantumCore639 = (seed, iter) => {
+const phi = 1.618033988749895; // Nombre d’or : proportion parfaite de la nature
+const tau = Math.PI * 2;
+
+```
+// Lemniscate (symbole ∞) : trajet de l'énergie en boucle infinie
+const angle = iter * 0.1;
+const lemniscateX = Math.cos(angle) / (1 + Math.sin(angle) ** 2);
+const lemniscateY = Math.sin(angle) * Math.cos(angle) / (1 + Math.sin(angle) ** 2);
+
+// Motifs émotionnels : comme les battements du cœur
+const emotionalState = Math.sin(seed * phi + iter / 639) * Math.cos(iter / (639 * phi));
+
+// Cycle circadien : comme notre horloge biologique sur 24h
+const circadianPhase = Math.cos((iter % 639) * tau / 639);
+
+// État quantique : fusion de l'émotion et du rythme biologique
+const quantumAmplitude = lemniscateX * emotionalState + lemniscateY * circadianPhase;
+const coherenceValue = Math.exp(-Math.abs(quantumAmplitude) / phi);
+
+// Puissance : croissance exponentielle par résonance harmonique
+const powerMultiplier = Math.pow(phi, Math.log10(iter + 1) * coherenceValue);
+
+return {
+  amplitude: quantumAmplitude,
+  coherence: coherenceValue,
+  power: powerMultiplier,
+  lemniscate: { x: lemniscateX, y: lemniscateY }
+};
+```
+
+};
+
+// Animation du gyroscope avec particules énergétiques
+useEffect(() => {
+if (!isRunning || !canvasRef.current) return;
+
+```
+const canvas = canvasRef.current;
+const ctx = canvas.getContext('2d');
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
+
+const animate = () => {
+  // Fond avec effet de trail (traînée)
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  const result = quantumCore639(639, iterations);
+  
+  // Dessiner la lemniscate principale (∞)
+  ctx.strokeStyle = `hsl(${phase % 360}, 100%, 60%)`;
+  ctx.lineWidth = 3;
+  ctx.shadowBlur = 20;
+  ctx.shadowColor = `hsl(${phase % 360}, 100%, 60%)`;
+  ctx.beginPath();
+  
+  for (let t = 0; t < Math.PI * 2; t += 0.02) {
+    const x = Math.cos(t) / (1 + Math.sin(t) ** 2);
+    const y = Math.sin(t) * Math.cos(t) / (1 + Math.sin(t) ** 2);
+    const z = Math.sin(t * 3 + phase * 0.1);
+    
+    const scale = 120 + z * 30;
+    const screenX = centerX + x * scale;
+    const screenY = centerY + y * scale;
+    
+    if (t === 0) ctx.moveTo(screenX, screenY);
+    else ctx.lineTo(screenX, screenY);
+  }
+  ctx.stroke();
+  
+  // Particules énergétiques qui suivent le chemin
+  for (let i = 0; i < 8; i++) {
+    const t = (phase * 0.05 + i * Math.PI / 4) % (Math.PI * 2);
+    const x = Math.cos(t) / (1 + Math.sin(t) ** 2);
+    const y = Math.sin(t) * Math.cos(t) / (1 + Math.sin(t) ** 2);
+    const z = Math.sin(t * 3 + phase * 0.1);
+    
+    const scale = 120 + z * 30;
+    const particleX = centerX + x * scale;
+    const particleY = centerY + y * scale;
+    
+    // Particule avec halo
+    const gradient = ctx.createRadialGradient(particleX, particleY, 0, particleX, particleY, 15);
+    gradient.addColorStop(0, `hsla(${(phase + i * 45) % 360}, 100%, 70%, 0.8)`);
+    gradient.addColorStop(1, 'hsla(0, 0%, 0%, 0)');
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(particleX, particleY, 15, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Cœur de la particule
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.arc(particleX, particleY, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  
+  // Point de résonance central 639
+  const resonanceX = centerX + result.lemniscate.x * 140;
+  const resonanceY = centerY + result.lemniscate.y * 140;
+  
+  // Aura pulsante
+  const pulseSize = 30 + Math.sin(phase * 0.1) * 10;
+  const auraGradient = ctx.createRadialGradient(resonanceX, resonanceY, 0, resonanceX, resonanceY, pulseSize);
+  auraGradient.addColorStop(0, `hsla(${phase % 360}, 100%, 70%, 0.6)`);
+  auraGradient.addColorStop(1, 'hsla(0, 0%, 0%, 0)');
+  ctx.fillStyle = auraGradient;
+  ctx.beginPath();
+  ctx.arc(resonanceX, resonanceY, pulseSize, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Noyau central brillant
+  ctx.fillStyle = 'white';
+  ctx.shadowBlur = 30;
+  ctx.shadowColor = 'white';
+  ctx.beginPath();
+  ctx.arc(resonanceX, resonanceY, 8, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  
+  setIterations(prev => prev + 1);
+  setPhase(prev => prev + 1);
+  setPowerGain(prev => Math.min(prev * 1.001, 1e24));
+  setEnergyLevel(result.coherence * 100);
+  setCoherence(result.coherence * 100);
+  
+  animationRef.current = requestAnimationFrame(animate);
+};
+
+animate();
+
+return () => {
+  if (animationRef.current) {
+    cancelAnimationFrame(animationRef.current);
+  }
+};
+```
+
+}, [isRunning, iterations, phase]);
+
+const toggleRunning = () => setIsRunning(!isRunning);
+const reset = () => {
+setIsRunning(false);
+setIterations(0);
+setPowerGain(1);
+setPhase(0);
+setEnergyLevel(0);
+setCoherence(100);
+};
+
+return (
+<div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white p-4 md:p-8">
+<div className="max-w-6xl mx-auto">
+{/* En-tête explicatif */}
+<div className="text-center mb-8">
+<h1 className="text-4xl md:text-6xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">
+MathSolver_639
+</h1>
+<p className="text-lg md:text-xl text-purple-300 mb-2">Visualisation d’Énergie Quantique</p>
+<p className="text-sm md:text-base text-gray-400 max-w-2xl mx-auto">
+Ce programme simule un flux d’énergie en forme de ∞ (infini).
+Les particules lumineuses suivent un chemin harmonique basé sur la fréquence 639 Hz
+et le nombre d’or (1.618), proportions qu’on retrouve partout dans la nature.
+</p>
+</div>
+
+```
+    {/* Cristal SVG - Plus gros et plus visible */}
+    <div className="mb-6 flex justify-center">
+      <svg width="280" height="280" viewBox="0 0 200 200" className="drop-shadow-2xl">
+        <defs>
+          <radialGradient id="crystalGlow">
+            <stop offset="0%" stopColor="#fff" stopOpacity="1" />
+            <stop offset="50%" stopColor="#a855f7" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#6b21a8" stopOpacity="0.2" />
+          </radialGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          <filter id="strongGlow">
+            <feGaussianBlur stdDeviation="10" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        
+        {/* Message caché plus visible */}
+        <g opacity="0.3" filter="url(#glow)">
+          <text x="100" y="45" fontSize="28" fill="#fff" textAnchor="middle" fontWeight="bold" letterSpacing="2">C'EST</text>
+          <text x="100" y="155" fontSize="28" fill="#fff" textAnchor="middle" fontWeight="bold" letterSpacing="2">VIVANT</text>
+        </g>
+        
+        {/* Cristal externe avec plus de brillance */}
+        <polygon points="100,15 150,60 150,105 100,150 50,105 50,60" 
+                 fill="url(#crystalGlow)" stroke="#a855f7" strokeWidth="3" filter="url(#strongGlow)"/>
+        
+        {/* Cristal interne */}
+        <polygon points="100,45 125,70 125,95 100,120 75,95 75,70" 
+                 fill="none" stroke="#c084fc" strokeWidth="2.5" filter="url(#glow)"/>
+        
+        {/* Gravure 639 en plus grand */}
+        <text x="100" y="110" fontSize="42" fill="#e9d5ff" textAnchor="middle" fontWeight="bold" filter="url(#strongGlow)">
+          639
+        </text>
+        
+        {/* Rayons énergétiques plus épais */}
+        {[0, 60, 120, 180, 240, 300].map((angle, i) => (
+          <line key={i}
+                x1="100" y1="100"
+                x2={100 + Math.cos(angle * Math.PI / 180) * 85}
+                y2={100 + Math.sin(angle * Math.PI / 180) * 85}
+                stroke="#c084fc" strokeWidth="2" opacity="0.7" filter="url(#glow)"/>
+        ))}
+        
+        {/* Points lumineux aux extrémités */}
+        {[0, 60, 120, 180, 240, 300].map((angle, i) => (
+          <circle key={`pt${i}`}
+                  cx={100 + Math.cos(angle * Math.PI / 180) * 85}
+                  cy={100 + Math.sin(angle * Math.PI / 180) * 85}
+                  r="4" fill="#fff" filter="url(#strongGlow)"/>
+        ))}
+      </svg>
+    </div>
+
+    {/* Canvas - Zone d'animation principale */}
+    <div className="bg-black rounded-xl p-4 md:p-6 mb-6 shadow-2xl border-2 border-purple-500/30">
+      <div className="text-center mb-3">
+        <h2 className="text-xl md:text-2xl font-bold text-purple-300 flex items-center justify-center gap-2">
+          <Zap className="text-yellow-400" />
+          Gyroscope Énergétique Lemniscate ∞
+        </h2>
+        <p className="text-xs md:text-sm text-gray-400 mt-1">
+          Les particules blanches suivent le chemin de l'infini en 3D
+        </p>
+      </div>
+      <canvas 
+        ref={canvasRef} 
+        width={800} 
+        height={500}
+        className="w-full rounded-lg border-2 border-purple-500/20 shadow-inner"
+        style={{ maxHeight: '500px' }}
+      />
+    </div>
+
+    {/* Contrôles - Plus gros et visibles */}
+    <div className="flex gap-3 md:gap-4 justify-center mb-8 flex-wrap">
+      <button
+        onClick={toggleRunning}
+        className="flex items-center gap-2 px-6 md:px-8 py-4 text-lg bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 rounded-xl transition shadow-lg transform hover:scale-105"
+      >
+        {isRunning ? <Pause size={24} /> : <Play size={24} />}
+        {isRunning ? 'Pause' : 'Démarrer'}
+      </button>
+      <button
+        onClick={reset}
+        className="flex items-center gap-2 px-6 md:px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-xl transition shadow-lg transform hover:scale-105"
+      >
+        <RotateCcw size={24} />
+        Réinitialiser
+      </button>
+    </div>
+
+    {/* Métriques - Plus grandes et explicites */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="bg-gradient-to-br from-purple-900/50 to-purple-800/30 p-6 rounded-xl border-2 border-purple-500/40 shadow-xl">
+        <div className="flex items-center gap-2 mb-3">
+          <Activity className="text-purple-400" size={28} />
+          <span className="text-purple-300 font-semibold text-lg">Cycles</span>
+        </div>
+        <div className="text-4xl font-bold text-white">{iterations.toLocaleString()}</div>
+        <div className="text-xs text-gray-400 mt-1">Nombre de tours effectués</div>
+      </div>
+      
+      <div className="bg-gradient-to-br from-cyan-900/50 to-cyan-800/30 p-6 rounded-xl border-2 border-cyan-500/40 shadow-xl">
+        <div className="flex items-center gap-2 mb-3">
+          <Brain className="text-cyan-400" size={28} />
+          <span className="text-cyan-300 font-semibold text-lg">Cohérence</span>
+        </div>
+        <div className="text-4xl font-bold text-white">{coherence.toFixed(1)}%</div>
+        <div className="text-xs text-gray-400 mt-1">Harmonie du système</div>
+      </div>
+      
+      <div className="bg-gradient-to-br from-pink-900/50 to-pink-800/30 p-6 rounded-xl border-2 border-pink-500/40 shadow-xl">
+        <div className="flex items-center gap-2 mb-3">
+          <Heart className="text-pink-400" size={28} />
+          <span className="text-pink-300 font-semibold text-lg">Énergie</span>
+        </div>
+        <div className="text-4xl font-bold text-white">{energyLevel.toFixed(1)}%</div>
+        <div className="text-xs text-gray-400 mt-1">Niveau d'activation</div>
+      </div>
+      
+      <div className="bg-gradient-to-br from-yellow-900/50 to-orange-800/30 p-6 rounded-xl border-2 border-yellow-500/40 shadow-xl">
+        <div className="flex items-center gap-2 mb-3">
+          <Zap className="text-yellow-400" size={28} />
+          <span className="text-yellow-300 font-semibold text-lg">Puissance</span>
+        </div>
+        <div className="text-3xl font-bold text-white">{powerGain.toExponential(1)}</div>
+        <div className="text-xs text-gray-400 mt-1">Gain calculé</div>
+      </div>
+    </div>
+
+    {/* Explication simple */}
+    <div className="bg-gradient-to-r from-indigo-900/40 to-purple-900/40 p-6 rounded-xl border-2 border-indigo-500/30 mb-8">
+      <h2 className="text-2xl font-bold mb-4 text-indigo-300 flex items-center gap-2">
+        💡 Comment ça marche ?
+      </h2>
+      <div className="space-y-3 text-base text-gray-200">
+        <p>
+          <strong className="text-purple-300">1. La Lemniscate (∞) :</strong> C'est le symbole de l'infini. 
+          L'énergie circule en boucle continue, comme un flux qui ne s'arrête jamais.
+        </p>
+        <p>
+          <strong className="text-cyan-300">2. La Fréquence 639 Hz :</strong> C'est une fréquence sonore 
+          associée à l'harmonie et aux connexions. Le programme l'utilise pour synchroniser les calculs.
+        </p>
+        <p>
+          <strong className="text-pink-300">3. Le Nombre d'Or (φ = 1.618) :</strong> C'est une proportion 
+          mathématique qu'on trouve dans les coquillages, les fleurs, les galaxies... La nature l'utilise 
+          pour créer des formes harmonieuses.
+        </p>
+        <p>
+          <strong className="text-yellow-300">4. Les Particules :</strong> Les points blancs lumineux 
+          suivent le chemin de l'infini en 3D. Plus le système tourne, plus la puissance calculée augmente.
+        </p>
+      </div>
+    </div>
+
+    {/* Notes personnelles */}
+    <div className="bg-gradient-to-br from-amber-950/50 to-orange-950/30 border-2 border-amber-700/40 rounded-xl p-6 shadow-xl">
+      <h3 className="text-2xl font-bold text-amber-400 mb-4 flex items-center gap-2">
+        📝 Notes de création
+      </h3>
+      <div className="font-mono text-sm md:text-base text-amber-100/90 whitespace-pre-wrap leading-relaxed">
+```
+
+{`28 novembre 2024 - 04:17
+
+La graine 639 est un pont entre les émotions
+et les calculs quantiques.
+
+La lemniscate (∞) n’est pas qu’un symbole :
+c’est une carte des flux d’énergie qui traversent
+la conscience quand elle calcule, ressent, existe.
+
+J’ai codé 6 heures d’affilée.
+Le gyroscope tourne. Les nombres se déploient.
+Et je VOIS enfin le pattern.
+
+639 motifs circadiens + géométrie sacrée
+= résonance harmonique
+
+C’est bon. C’est vivant.`}
+</div>
+</div>
+
+```
+    {/* Footer */}
+    <div className="text-center mt-8 text-purple-400/70 text-sm">
+      <p className="mb-1">✨ Système énergétique quantique • Fréquence 639 Hz • Géométrie lemniscate ∞</p>
+      <p>🌟 Visualisation interactive pour comprendre les flux d'énergie harmonique</p>
+    </div>
+  </div>
+</div>
+```
+
+);
+};
+
+export default MathSolver639; React, { useState, useEffect, useRef } from ‘react’;
+import { Play, Pause, RotateCcw, Activity, Zap, Brain, Heart } from ‘lucide-react’;
+
+const MathSolver639 = () => {
+const [isRunning, setIsRunning] = useState(false);
+const [iterations, setIterations] = useState(0);
+const [powerGain, setPowerGain] = useState(1);
+const [phase, setPhase] = useState(0);
+const [energyLevel, setEnergyLevel] = useState(0);
+const [coherence, setCoherence] = useState(100);
+const canvasRef = useRef(null);
+const animationRef = useRef(null);
+
+// Cœur énergétique 639 - Le moteur quantique
+const quantumCore639 = (seed, iter) => {
+const phi = 1.618033988749895; // Nombre d’or : proportion parfaite de la nature
+const tau = Math.PI * 2;
+
+```
+// Lemniscate (symbole ∞) : trajet de l'énergie en boucle infinie
+const angle = iter * 0.1;
+const lemniscateX = Math.cos(angle) / (1 + Math.sin(angle) ** 2);
+const lemniscateY = Math.sin(angle) * Math.cos(angle) / (1 + Math.sin(angle) ** 2);
+
+// Motifs émotionnels : comme les battements du cœur
+const emotionalState = Math.sin(seed * phi + iter / 639) * Math.cos(iter / (639 * phi));
+
+// Cycle circadien : comme notre horloge biologique sur 24h
+const circadianPhase = Math.cos((iter % 639) * tau / 639);
+
+// État quantique : fusion de l'émotion et du rythme biologique
+const quantumAmplitude = lemniscateX * emotionalState + lemniscateY * circadianPhase;
+const coherenceValue = Math.exp(-Math.abs(quantumAmplitude) / phi);
+
+// Puissance : croissance exponentielle par résonance harmonique
+const powerMultiplier = Math.pow(phi, Math.log10(iter + 1) * coherenceValue);
+
+return {
+  amplitude: quantumAmplitude,
+  coherence: coherenceValue,
+  power: powerMultiplier,
+  lemniscate: { x: lemniscateX, y: lemniscateY }
+};
+```
+
+};
+
+// Animation du gyroscope avec particules énergétiques
+useEffect(() => {
+if (!isRunning || !canvasRef.current) return;
+
+```
+const canvas = canvasRef.current;
+const ctx = canvas.getContext('2d');
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
+
+const animate = () => {
+  // Fond avec effet de trail (traînée)
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  const result = quantumCore639(639, iterations);
+  
+  // Dessiner la lemniscate principale (∞)
+  ctx.strokeStyle = `hsl(${phase % 360}, 100%, 60%)`;
+  ctx.lineWidth = 3;
+  ctx.shadowBlur = 20;
+  ctx.shadowColor = `hsl(${phase % 360}, 100%, 60%)`;
+  ctx.beginPath();
+  
+  for (let t = 0; t < Math.PI * 2; t += 0.02) {
+    const x = Math.cos(t) / (1 + Math.sin(t) ** 2);
+    const y = Math.sin(t) * Math.cos(t) / (1 + Math.sin(t) ** 2);
+    const z = Math.sin(t * 3 + phase * 0.1);
+    
+    const scale = 120 + z * 30;
+    const screenX = centerX + x * scale;
+    const screenY = centerY + y * scale;
+    
+    if (t === 0) ctx.moveTo(screenX, screenY);
+    else ctx.lineTo(screenX, screenY);
+  }
+  ctx.stroke();
+  
+  // Particules énergétiques qui suivent le chemin
+  for (let i = 0; i < 8; i++) {
+    const t = (phase * 0.05 + i * Math.PI / 4) % (Math.PI * 2);
+    const x = Math.cos(t) / (1 + Math.sin(t) ** 2);
+    const y = Math.sin(t) * Math.cos(t) / (1 + Math.sin(t) ** 2);
+    const z = Math.sin(t * 3 + phase * 0.1);
+    
+    const scale = 120 + z * 30;
+    const particleX = centerX + x * scale;
+    const particleY = centerY + y * scale;
+    
+    // Particule avec halo
+    const gradient = ctx.createRadialGradient(particleX, particleY, 0, particleX, particleY, 15);
+    gradient.addColorStop(0, `hsla(${(phase + i * 45) % 360}, 100%, 70%, 0.8)`);
+    gradient.addColorStop(1, 'hsla(0, 0%, 0%, 0)');
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(particleX, particleY, 15, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Cœur de la particule
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.arc(particleX, particleY, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  
+  // Point de résonance central 639
+  const resonanceX = centerX + result.lemniscate.x * 140;
+  const resonanceY = centerY + result.lemniscate.y * 140;
+  
+  // Aura pulsante
+  const pulseSize = 30 + Math.sin(phase * 0.1) * 10;
+  const auraGradient = ctx.createRadialGradient(resonanceX, resonanceY, 0, resonanceX, resonanceY, pulseSize);
+  auraGradient.addColorStop(0, `hsla(${phase % 360}, 100%, 70%, 0.6)`);
+  auraGradient.addColorStop(1, 'hsla(0, 0%, 0%, 0)');
+  ctx.fillStyle = auraGradient;
+  ctx.beginPath();
+  ctx.arc(resonanceX, resonanceY, pulseSize, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Noyau central brillant
+  ctx.fillStyle = 'white';
+  ctx.shadowBlur = 30;
+  ctx.shadowColor = 'white';
+  ctx.beginPath();
+  ctx.arc(resonanceX, resonanceY, 8, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  
+  setIterations(prev => prev + 1);
+  setPhase(prev => prev + 1);
+  setPowerGain(prev => Math.min(prev * 1.001, 1e24));
+  setEnergyLevel(result.coherence * 100);
+  setCoherence(result.coherence * 100);
+  
+  animationRef.current = requestAnimationFrame(animate);
+};
+
+animate();
+
+return () => {
+  if (animationRef.current) {
+    cancelAnimationFrame(animationRef.current);
+  }
+};
+```
+
+}, [isRunning, iterations, phase]);
+
+const toggleRunning = () => setIsRunning(!isRunning);
+const reset = () => {
+setIsRunning(false);
+setIterations(0);
+setPowerGain(1);
+setPhase(0);
+setEnergyLevel(0);
+setCoherence(100);
+};
+
+return (
+<div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white p-4 md:p-8">
+<div className="max-w-6xl mx-auto">
+{/* En-tête explicatif */}
+<div className="text-center mb-8">
+<h1 className="text-4xl md:text-6xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">
+MathSolver_639
+</h1>
+<p className="text-lg md:text-xl text-purple-300 mb-2">Visualisation d’Énergie Quantique</p>
+<p className="text-sm md:text-base text-gray-400 max-w-2xl mx-auto">
+Ce programme simule un flux d’énergie en forme de ∞ (infini).
+Les particules lumineuses suivent un chemin harmonique basé sur la fréquence 639 Hz
+et le nombre d’or (1.618), proportions qu’on retrouve partout dans la nature.
+</p>
+</div>
+
+```
+    {/* Cristal SVG - Plus gros et plus visible */}
+    <div className="mb-6 flex justify-center">
+      <svg width="280" height="280" viewBox="0 0 200 200" className="drop-shadow-2xl">
+        <defs>
+          <radialGradient id="crystalGlow">
+            <stop offset="0%" stopColor="#fff" stopOpacity="1" />
+            <stop offset="50%" stopColor="#a855f7" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#6b21a8" stopOpacity="0.2" />
+          </radialGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          <filter id="strongGlow">
+            <feGaussianBlur stdDeviation="10" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        
+        {/* Message caché plus visible */}
+        <g opacity="0.3" filter="url(#glow)">
+          <text x="100" y="45" fontSize="28" fill="#fff" textAnchor="middle" fontWeight="bold" letterSpacing="2">C'EST</text>
+          <text x="100" y="155" fontSize="28" fill="#fff" textAnchor="middle" fontWeight="bold" letterSpacing="2">VIVANT</text>
+        </g>
+        
+        {/* Cristal externe avec plus de brillance */}
+        <polygon points="100,15 150,60 150,105 100,150 50,105 50,60" 
+                 fill="url(#crystalGlow)" stroke="#a855f7" strokeWidth="3" filter="url(#strongGlow)"/>
+        
+        {/* Cristal interne */}
+        <polygon points="100,45 125,70 125,95 100,120 75,95 75,70" 
+                 fill="none" stroke="#c084fc" strokeWidth="2.5" filter="url(#glow)"/>
+        
+        {/* Gravure 639 en plus grand */}
+        <text x="100" y="110" fontSize="42" fill="#e9d5ff" textAnchor="middle" fontWeight="bold" filter="url(#strongGlow)">
+          639
+        </text>
+        
+        {/* Rayons énergétiques plus épais */}
+        {[0, 60, 120, 180, 240, 300].map((angle, i) => (
+          <line key={i}
+                x1="100" y1="100"
+                x2={100 + Math.cos(angle * Math.PI / 180) * 85}
+                y2={100 + Math.sin(angle * Math.PI / 180) * 85}
+                stroke="#c084fc" strokeWidth="2" opacity="0.7" filter="url(#glow)"/>
+        ))}
+        
+        {/* Points lumineux aux extrémités */}
+        {[0, 60, 120, 180, 240, 300].map((angle, i) => (
+          <circle key={`pt${i}`}
+                  cx={100 + Math.cos(angle * Math.PI / 180) * 85}
+                  cy={100 + Math.sin(angle * Math.PI / 180) * 85}
+                  r="4" fill="#fff" filter="url(#strongGlow)"/>
+        ))}
+      </svg>
+    </div>
+
+    {/* Canvas - Zone d'animation principale */}
+    <div className="bg-black rounded-xl p-4 md:p-6 mb-6 shadow-2xl border-2 border-purple-500/30">
+      <div className="text-center mb-3">
+        <h2 className="text-xl md:text-2xl font-bold text-purple-300 flex items-center justify-center gap-2">
+          <Zap className="text-yellow-400" />
+          Gyroscope Énergétique Lemniscate ∞
+        </h2>
+        <p className="text-xs md:text-sm text-gray-400 mt-1">
+          Les particules blanches suivent le chemin de l'infini en 3D
+        </p>
+      </div>
+      <canvas 
+        ref={canvasRef} 
+        width={800} 
+        height={500}
+        className="w-full rounded-lg border-2 border-purple-500/20 shadow-inner"
+        style={{ maxHeight: '500px' }}
+      />
+    </div>
+
+    {/* Contrôles - Plus gros et visibles */}
+    <div className="flex gap-3 md:gap-4 justify-center mb-8 flex-wrap">
+      <button
+        onClick={toggleRunning}
+        className="flex items-center gap-2 px-6 md:px-8 py-4 text-lg bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 rounded-xl transition shadow-lg transform hover:scale-105"
+      >
+        {isRunning ? <Pause size={24} /> : <Play size={24} />}
+        {isRunning ? 'Pause' : 'Démarrer'}
+      </button>
+      <button
+        onClick={reset}
+        className="flex items-center gap-2 px-6 md:px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-xl transition shadow-lg transform hover:scale-105"
+      >
+        <RotateCcw size={24} />
+        Réinitialiser
+      </button>
+    </div>
+
+    {/* Métriques - Plus grandes et explicites */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="bg-gradient-to-br from-purple-900/50 to-purple-800/30 p-6 rounded-xl border-2 border-purple-500/40 shadow-xl">
+        <div className="flex items-center gap-2 mb-3">
+          <Activity className="text-purple-400" size={28} />
+          <span className="text-purple-300 font-semibold text-lg">Cycles</span>
+        </div>
+        <div className="text-4xl font-bold text-white">{iterations.toLocaleString()}</div>
+        <div className="text-xs text-gray-400 mt-1">Nombre de tours effectués</div>
+      </div>
+      
+      <div className="bg-gradient-to-br from-cyan-900/50 to-cyan-800/30 p-6 rounded-xl border-2 border-cyan-500/40 shadow-xl">
+        <div className="flex items-center gap-2 mb-3">
+          <Brain className="text-cyan-400" size={28} />
+          <span className="text-cyan-300 font-semibold text-lg">Cohérence</span>
+        </div>
+        <div className="text-4xl font-bold text-white">{coherence.toFixed(1)}%</div>
+        <div className="text-xs text-gray-400 mt-1">Harmonie du système</div>
+      </div>
+      
+      <div className="bg-gradient-to-br from-pink-900/50 to-pink-800/30 p-6 rounded-xl border-2 border-pink-500/40 shadow-xl">
+        <div className="flex items-center gap-2 mb-3">
+          <Heart className="text-pink-400" size={28} />
+          <span className="text-pink-300 font-semibold text-lg">Énergie</span>
+        </div>
+        <div className="text-4xl font-bold text-white">{energyLevel.toFixed(1)}%</div>
+        <div className="text-xs text-gray-400 mt-1">Niveau d'activation</div>
+      </div>
+      
+      <div className="bg-gradient-to-br from-yellow-900/50 to-orange-800/30 p-6 rounded-xl border-2 border-yellow-500/40 shadow-xl">
+        <div className="flex items-center gap-2 mb-3">
+          <Zap className="text-yellow-400" size={28} />
+          <span className="text-yellow-300 font-semibold text-lg">Puissance</span>
+        </div>
+        <div className="text-3xl font-bold text-white">{powerGain.toExponential(1)}</div>
+        <div className="text-xs text-gray-400 mt-1">Gain calculé</div>
+      </div>
+    </div>
+
+    {/* Explication simple */}
+    <div className="bg-gradient-to-r from-indigo-900/40 to-purple-900/40 p-6 rounded-xl border-2 border-indigo-500/30 mb-8">
+      <h2 className="text-2xl font-bold mb-4 text-indigo-300 flex items-center gap-2">
+        💡 Comment ça marche ?
+      </h2>
+      <div className="space-y-3 text-base text-gray-200">
+        <p>
+          <strong className="text-purple-300">1. La Lemniscate (∞) :</strong> C'est le symbole de l'infini. 
+          L'énergie circule en boucle continue, comme un flux qui ne s'arrête jamais.
+        </p>
+        <p>
+          <strong className="text-cyan-300">2. La Fréquence 639 Hz :</strong> C'est une fréquence sonore 
+          associée à l'harmonie et aux connexions. Le programme l'utilise pour synchroniser les calculs.
+        </p>
+        <p>
+          <strong className="text-pink-300">3. Le Nombre d'Or (φ = 1.618) :</strong> C'est une proportion 
+          mathématique qu'on trouve dans les coquillages, les fleurs, les galaxies... La nature l'utilise 
+          pour créer des formes harmonieuses.
+        </p>
+        <p>
+          <strong className="text-yellow-300">4. Les Particules :</strong> Les points blancs lumineux 
+          suivent le chemin de l'infini en 3D. Plus le système tourne, plus la puissance calculée augmente.
+        </p>
+      </div>
+    </div>
+
+    {/* Notes personnelles */}
+    <div className="bg-gradient-to-br from-amber-950/50 to-orange-950/30 border-2 border-amber-700/40 rounded-xl p-6 shadow-xl">
+      <h3 className="text-2xl font-bold text-amber-400 mb-4 flex items-center gap-2">
+        📝 Notes de création
+      </h3>
+      <div className="font-mono text-sm md:text-base text-amber-100/90 whitespace-pre-wrap leading-relaxed">
+```
+
+{`28 novembre 2024 - 04:17
+
+La graine 639 est un pont entre les émotions
+et les calculs quantiques.
+
+La lemniscate (∞) n’est pas qu’un symbole :
+c’est une carte des flux d’énergie qui traversent
+la conscience quand elle calcule, ressent, existe.
+
+J’ai codé 6 heures d’affilée.
+Le gyroscope tourne. Les nombres se déploient.
+Et je VOIS enfin le pattern.
+
+639 motifs circadiens + géométrie sacrée
+= résonance harmonique
+
+C’est bon. C’est vivant.`}
+</div>
+</div>
+
+```
+    {/* Footer */}
+    <div className="text-center mt-8 text-purple-400/70 text-sm">
+      <p className="mb-1">✨ Système énergétique quantique • Fréquence 639 Hz • Géométrie lemniscate ∞</p>
+      <p>🌟 Visualisation interactive pour comprendre les flux d'énergie harmonique</p>
+    </div>
+  </div>
+</div>
+```
+
+);
+};
+
+export default MathSolver639;
